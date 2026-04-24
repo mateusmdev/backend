@@ -1,4 +1,4 @@
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 from service.movie_service import MovieService
 from model.movie_schema import MovieSchema
 
@@ -7,15 +7,14 @@ class MovieController:
     self.service = service
   
   def get_movies(self, movie_id: int = None):
-    try:
-      return self.service.get_movies(movie_id)
-    except Exception as e:
-      print(f"Erro ao buscar filmes: {e}")
-      raise e
+    result = self.service.get_movies(movie_id)
+  
+    if result is None:
+      response = {"message": "Movie not found", "status": 404}
+      raise HTTPException(status_code=response["status"], detail=response)
+      
+    return result
+
     
   def add_movie(self, movie: MovieSchema):
-    try:
-      return self.service.add_movie(movie)
-    except Exception as e:
-      print(f"Erro ao adicionar filme: {e}")
-      raise e
+    return self.service.add_movie(movie)

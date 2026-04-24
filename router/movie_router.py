@@ -4,8 +4,6 @@ from model.movie_schema import MovieSchema
 
 router = APIRouter()
 
-controller = MovieController()
-
 @router.get('/')
 def get_movies(controller: MovieController = Depends(MovieController)):
   return controller.get_movies()
