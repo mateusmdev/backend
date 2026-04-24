@@ -1,12 +1,19 @@
-from pydantic import BaseModel
 from typing import List, Any
 
-class MovieRepository(BaseModel):
-
-  movies: List[Any] = [{'id': 1, 'name': 'clube da luta'}, {'id': 2, 'name': 'efeito borboleta'}]
+movies: List[Any] = [
+    {'id': 1, 'name': 'clube da luta'}, 
+    {'id': 2, 'name': 'efeito borboleta'}
+]
+class MovieRepository:
+  def __init__(self):
+    pass
 
   def findAll(self):
-    return self.movies
+    return movies
   
   def findById(self, id: int):
-    return self.movies[id]
+    return next((m for m in movies if m['id'] == id), None)
+
+  def create(self, movie_data: dict):
+    movies.append(movie_data)
+    return movies
