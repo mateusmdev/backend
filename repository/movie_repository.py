@@ -1,19 +1,27 @@
-from typing import List, Any
+from typing import List
+from sqlalchemy.orm import Session
+from database.config import SessionLocal, engine, Base
+from model.movie_model import MovieModel
 
-movies: List[Any] = [
-    {'id': 1, 'name': 'clube da luta'}, 
-    {'id': 2, 'name': 'efeito borboleta'}
-]
+Base.metadata.create_all(bind=engine)
+
 class MovieRepository:
-  def __init__(self):
-    pass
+    def __init__(self):
+        self.db: Session = SessionLocal()
 
-  def findAll(self):
-    return movies
-  
-  def findById(self, id: int):
-    return next((m for m in movies if m['id'] == id), None)
+    def findAll(self) -> List[MovieModel]:
+        return self.db.query(MovieModel).all()
 
-  def create(self, movie_data: dict):
-    movies.append(movie_data)
-    return movies
+    def findById(self, id: int) -> MovieModel:
+        return self.db.query(MovieModel).filter(MovieModel.id == id).first()
+
+    def create(self, movie_data: dict) -> List[MovieModel]:
+        db_movie = MovieModel(**movie_data)
+        self.db.add(db_movie)
+        self.db.commit()
+        self.db.refresh(db_movie)
+
+        return self.findAll()
+
+    def __del__(self):
+        self.db.close()
