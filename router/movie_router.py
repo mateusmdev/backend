@@ -15,3 +15,7 @@ def get_movie(movie_id: int, controller: MovieController = Depends(MovieControll
 @router.post('/')
 def add_movie(movie: MovieSchema, controller: MovieController = Depends(MovieController)):
   return controller.add_movie(movie)
+
+@router.delete('/{movie_id}/')
+def delete_movie(movie_id: int, controller: MovieController = Depends(MovieController)):
+  return controller.delete_movie(movie_id)

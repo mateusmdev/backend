@@ -15,6 +15,14 @@ class MovieController:
       
     return result
 
-    
   def add_movie(self, movie: MovieSchema):
     return self.service.add_movie(movie)
+
+  def delete_movie(self, movie_id: int):
+    result = self.service.delete_movie(movie_id)
+
+    if result is None:
+      response = {"message": "Movie not found", "status": 404}
+      raise HTTPException(status_code=response["status"], detail=response)
+
+    return result

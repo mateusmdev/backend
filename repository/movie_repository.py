@@ -23,5 +23,13 @@ class MovieRepository:
 
         return self.findAll()
 
+    def delete(self, id: int) -> List[MovieModel]:
+        movie = self.findById(id)
+        if movie:
+            self.db.delete(movie)
+            self.db.commit()
+
+        return self.findAll()
+
     def __del__(self):
         self.db.close()

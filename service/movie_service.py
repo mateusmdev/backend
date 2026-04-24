@@ -14,3 +14,9 @@ class MovieService:
   def add_movie(self, movie: MovieSchema):
     data = self.repository.create(movie.model_dump())
     return data
+
+  def delete_movie(self, movie_id: int):
+    movie = self.repository.findById(movie_id)
+    if movie is None:
+      return None
+    return self.repository.delete(movie_id)
