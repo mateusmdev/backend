@@ -1,4 +1,4 @@
-[Inglês](DOCUMENTATION_EN.md) | [Português](DOCUMENTATION.md)
+[Inglês](README.md) | [Português](README.pt-br.md)
 
 # Documentação Técnica do Projeto - Movie API
 
